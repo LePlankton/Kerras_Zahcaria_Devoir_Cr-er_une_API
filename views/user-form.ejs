@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= editUser ? 'Modifier' : 'Créer' %> un utilisateur - Port de Plaisance Russell</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #1e3a5f;
+            padding: 15px 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .contenu {
+            padding: 30px;
+        }
+
+        h1 {
+            color: #1e3a5f;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: white;
+            padding: 25px;
+            border-radius: 6px;
+            max-width: 450px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .indication {
+            font-size: 12px;
+            color: #888;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .erreur {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .btn-valider {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-valider:hover {
+            background-color: #2e6da4;
+        }
+
+        .lien-annuler {
+            margin-left: 15px;
+            color: #2e6da4;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard/users">← Retour aux utilisateurs</a>
+        <a href="/auth/logout">Se déconnecter</a>
+    </nav>
+
+    <div class="contenu">
+        <h1><%= editUser ? 'Modifier ' + editUser.username : 'Nouvel utilisateur' %></h1>
+
+        <% if (typeof error !== 'undefined') { %>
+            <p class="erreur"><%= error %></p>
+        <% } %>
+
+        <form method="POST" action="<%= editUser ? '/dashboard/users/' + editUser.email + '/edit' : '/dashboard/users' %>">
+
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" required value="<%= editUser ? editUser.username : '' %>" placeholder="Ex: jdupont" />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required value="<%= editUser ? editUser.email : '' %>" placeholder="Ex: j.dupont@exemple.fr" />
+
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" <%= editUser ? '' : 'required' %> placeholder="<%= editUser ? 'Laisser vide pour ne pas changer' : 'Mot de passe' %>" />
+            <% if (editUser) { %>
+                <p class="indication">Laisser vide pour conserver le mot de passe actuel.</p>
+            <% } %>
+
+            <button type="submit" class="btn-valider"><%= editUser ? 'Enregistrer' : 'Créer' %></button>
+            <a href="/dashboard/users" class="lien-annuler">Annuler</a>
+        </form>
+    </div>
+
+</body>
+</html>

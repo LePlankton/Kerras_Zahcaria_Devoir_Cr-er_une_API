@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation API - Port de Plaisance Russell</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        h1 { color: #1e3a5f; }
+        h2 { color: #2e6da4; margin-top: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th { background-color: #1e3a5f; color: white; padding: 10px; text-align: left; }
+        td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+        tr:nth-child(even) { background-color: #f0f5fa; }
+        .method { font-weight: bold; font-family: monospace; }
+        .get { color: #27ae60; }
+        .post { color: #2980b9; }
+        .put { color: #e67e22; }
+        .delete { color: #e74c3c; }
+        .url { font-family: monospace; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; color: #2e6da4; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Accueil</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+
+    <h1>Documentation de l'API</h1>
+    <p>API REST du Port de Plaisance Russell. Toutes les routes (sauf <code>/auth/login</code>) nécessitent un token JWT dans le header <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+
+    <h2>Authentification</h2>
+    <table>
+        <tr>
+            <th>Méthode</th>
+            <th>Route</th>
+            <th>Description</th>
+            <th>Auth requise</th>
+        </tr>
+        <tr>
+            <td><span class="method post">POST</span></td>
+            <td class="url">/auth/login</td>
+            <td>Se connecter et obtenir un token JWT</td>
+            <td>Non</td>
+        </tr>
+    </table>
+
+    <h2>Catways</h2>
+    <table>
+        <tr>
+            <th>Méthode</th>
+            <th>Route</th>
+            <th>Description</th>
+            <th>Auth requise</th>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/catways</td>
+            <td>Lister tous les catways</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/catways/:id</td>
+            <td>Obtenir les détails d'un catway</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method post">POST</span></td>
+            <td class="url">/catways</td>
+            <td>Créer un nouveau catway</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method put">PUT</span></td>
+            <td class="url">/catways/:id</td>
+            <td>Modifier l'état d'un catway (catwayState uniquement)</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method delete">DELETE</span></td>
+            <td class="url">/catways/:id</td>
+            <td>Supprimer un catway</td>
+            <td>Oui</td>
+        </tr>
+    </table>
+
+    <h2>Réservations</h2>
+    <table>
+        <tr>
+            <th>Méthode</th>
+            <th>Route</th>
+            <th>Description</th>
+            <th>Auth requise</th>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/catways/:id/reservations</td>
+            <td>Lister toutes les réservations d'un catway</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method post">POST</span></td>
+            <td class="url">/catways/:id/reservations</td>
+            <td>Créer une réservation sur un catway</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/catways/:id/reservations/:reservationId</td>
+            <td>Détails d'une réservation</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method put">PUT</span></td>
+            <td class="url">/catways/:id/reservations/:reservationId</td>
+            <td>Modifier une réservation</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method delete">DELETE</span></td>
+            <td class="url">/catways/:id/reservations/:reservationId</td>
+            <td>Supprimer une réservation</td>
+            <td>Oui</td>
+        </tr>
+    </table>
+
+    <h2>Utilisateurs</h2>
+    <table>
+        <tr>
+            <th>Méthode</th>
+            <th>Route</th>
+            <th>Description</th>
+            <th>Auth requise</th>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/users</td>
+            <td>Lister tous les utilisateurs</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method get">GET</span></td>
+            <td class="url">/users/:email</td>
+            <td>Détails d'un utilisateur</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method post">POST</span></td>
+            <td class="url">/users</td>
+            <td>Créer un utilisateur</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method put">PUT</span></td>
+            <td class="url">/users/:email</td>
+            <td>Modifier un utilisateur</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td><span class="method delete">DELETE</span></td>
+            <td class="url">/users/:email</td>
+            <td>Supprimer un utilisateur</td>
+            <td>Oui</td>
+        </tr>
+    </table>
+
+    <h2>Exemples de requêtes</h2>
+    <h3>Login</h3>
+    <pre>POST /auth/login
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "motdepasse"
+}</pre>
+
+    <h3>Requête authentifiée</h3>
+    <pre>GET /catways
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</pre>
+</body>
+</html>

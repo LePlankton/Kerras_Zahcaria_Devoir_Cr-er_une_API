@@ -18,10 +18,18 @@ router.post('/login', async (req, res) => {
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         req.session.token = token;
+        req.session.user = { username: user.username, email: user.email };
         res.redirect('/dashboard');
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
+});
+
+// Déconnexion de l'utilisateur
+
+router.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
 });
 
 module.exports = router;

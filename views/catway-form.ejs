@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= catway ? 'Modifier' : 'Créer' %> un catway - Port de Plaisance Russell</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #1e3a5f;
+            padding: 15px 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .contenu {
+            padding: 30px;
+        }
+
+        h1 {
+            color: #1e3a5f;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: white;
+            padding: 25px;
+            border-radius: 6px;
+            max-width: 450px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .erreur {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .btn-valider {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-valider:hover {
+            background-color: #2e6da4;
+        }
+
+        .lien-annuler {
+            margin-left: 15px;
+            color: #2e6da4;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard/catways">← Retour aux catways</a>
+        <a href="/auth/logout">Se déconnecter</a>
+    </nav>
+
+    <div class="contenu">
+        <h1><%= catway ? 'Modifier le catway n°' + catway.catwayNumber : 'Nouveau catway' %></h1>
+
+        <% if (typeof error !== 'undefined') { %>
+            <p class="erreur"><%= error %></p>
+        <% } %>
+
+        <form method="POST" action="<%= catway ? '/dashboard/catways/' + catway.catwayNumber + '/edit' : '/dashboard/catways' %>">
+
+            <% if (!catway) { %>
+            <label for="catwayNumber">Numéro de catway</label>
+            <input type="number" id="catwayNumber" name="catwayNumber" required placeholder="Ex: 25" />
+
+            <label for="catwayType">Type de catway</label>
+            <select id="catwayType" name="catwayType" required>
+                <option value="">-- Choisir --</option>
+                <option value="long">Long</option>
+                <option value="short">Short</option>
+            </select>
+            <% } %>
+
+            <label for="catwayState">État du catway</label>
+            <textarea id="catwayState" name="catwayState" rows="3" required><%= catway ? catway.catwayState : '' %></textarea>
+
+            <button type="submit" class="btn-valider"><%= catway ? 'Enregistrer' : 'Créer' %></button>
+            <a href="/dashboard/catways" class="lien-annuler">Annuler</a>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Catways - Port de Plaisance Russell</title>
+    <title>Utilisateurs - Port de Plaisance Russell</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,17 +73,15 @@
             background-color: #f0f5fa;
         }
 
-        .btn-action {
+        .btn-modifier {
+            background-color: #2e6da4;
+            color: white;
             padding: 5px 10px;
             border-radius: 4px;
             text-decoration: none;
             font-size: 13px;
             margin-right: 5px;
-            color: white;
         }
-
-        .btn-detail { background-color: #7f8c8d; }
-        .btn-modifier { background-color: #2e6da4; }
 
         .btn-supprimer {
             background-color: #e74c3c;
@@ -104,38 +102,41 @@
 
     <nav>
         <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard/catways">Catways</a>
         <a href="/dashboard/reservations">Réservations</a>
-        <a href="/dashboard/users">Utilisateurs</a>
         <a href="/api-docs">Documentation API</a>
         <a href="/auth/logout">Se déconnecter</a>
     </nav>
 
     <div class="contenu">
-        <h1>Liste des catways</h1>
-        <a href="/dashboard/catways/new" class="btn-nouveau">+ Nouveau catway</a>
+        <h1>Utilisateurs</h1>
+        <a href="/dashboard/users/new" class="btn-nouveau">+ Nouvel utilisateur</a>
 
+        <% if (users.length === 0) { %>
+            <p>Aucun utilisateur enregistré.</p>
+        <% } else { %>
         <table>
             <tr>
-                <th>Numéro</th>
-                <th>Type</th>
-                <th>État</th>
+                <th>Nom d'utilisateur</th>
+                <th>Email</th>
+                <th>Créé le</th>
                 <th>Actions</th>
             </tr>
-            <% catways.forEach(catway => { %>
+            <% users.forEach(u => { %>
             <tr>
-                <td><%= catway.catwayNumber %></td>
-                <td><%= catway.catwayType === 'long' ? 'Long' : 'Court' %></td>
-                <td><%= catway.catwayState %></td>
+                <td><%= u.username %></td>
+                <td><%= u.email %></td>
+                <td><%= new Date(u.createdAt).toLocaleDateString('fr-FR') %></td>
                 <td>
-                    <a href="/dashboard/catways/<%= catway.catwayNumber %>" class="btn-action btn-detail">Détail</a>
-                    <a href="/dashboard/catways/<%= catway.catwayNumber %>/edit" class="btn-action btn-modifier">Modifier</a>
-                    <form method="POST" action="/dashboard/catways/<%= catway.catwayNumber %>/delete" style="display:inline;" onsubmit="return confirm('Supprimer ce catway ?')">
+                    <a href="/dashboard/users/<%= u.email %>/edit" class="btn-modifier">Modifier</a>
+                    <form method="POST" action="/dashboard/users/<%= u.email %>/delete" style="display:inline;" onsubmit="return confirm('Supprimer cet utilisateur ?')">
                         <button type="submit" class="btn-supprimer">Supprimer</button>
                     </form>
                 </td>
             </tr>
             <% }) %>
         </table>
+        <% } %>
     </div>
 
 </body>

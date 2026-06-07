@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Port de Plaisance Russell</title>
+    <title>Catway n°<%= catway.catwayNumber %> - Port de Plaisance Russell</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,41 +31,23 @@
             padding: 30px;
         }
 
-        h1 {
-            color: #1e3a5f;
-            margin-bottom: 5px;
-        }
-
-        .info-utilisateur {
-            color: #555;
-            margin-bottom: 25px;
-        }
-
-        .stats {
-            background-color: white;
-            border-left: 4px solid #2e6da4;
-            padding: 15px 20px;
-            margin-bottom: 30px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        .stats p {
-            margin: 0;
-            font-size: 15px;
-            color: #333;
-        }
-
-        .stats span {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1e3a5f;
-        }
-
-        h2 {
+        h1, h2 {
             color: #1e3a5f;
             margin-bottom: 15px;
+        }
+
+        .carte {
+            background-color: white;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #2e6da4;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .carte p {
+            margin: 8px 0;
+            font-size: 15px;
         }
 
         table {
@@ -89,44 +71,61 @@
         tr:nth-child(even) {
             background-color: #f0f5fa;
         }
+
+        .btn-modifier {
+            background-color: #2e6da4;
+            color: white;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-right: 5px;
+        }
+
+        .btn-supprimer {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-supprimer:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="/dashboard/catways">Catways</a>
-        <a href="/dashboard/reservations">Réservations</a>
-        <a href="/dashboard/users">Utilisateurs</a>
-        <a href="/api-docs">Documentation API</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/dashboard/catways">← Retour aux catways</a>
         <a href="/auth/logout">Se déconnecter</a>
     </nav>
 
     <div class="contenu">
+        <h1>Catway n°<%= catway.catwayNumber %></h1>
 
-        <h1>Tableau de bord</h1>
-        <p class="info-utilisateur">
-            Connecté en tant que : <b><%= user.username %></b> (<%= user.email %>) —
-            <%= new Date().toLocaleDateString('fr-FR') %>
-        </p>
-
-        <div class="stats">
-            <span><%= catways.length %></span>
-            <p>Catways enregistrés</p>
+        <div class="carte">
+            <p><b>Numéro :</b> <%= catway.catwayNumber %></p>
+            <p><b>Type :</b> <%= catway.catwayType === 'long' ? 'Long' : 'Court' %></p>
+            <p><b>État :</b> <%= catway.catwayState %></p>
         </div>
 
-        <div class="stats">
-            <span><%= reservations.length %></span>
-            <p>Réservations au total</p>
-        </div>
+        <a href="/dashboard/catways/<%= catway.catwayNumber %>/edit" class="btn-modifier">Modifier</a>
+        <form method="POST" action="/dashboard/catways/<%= catway.catwayNumber %>/delete" style="display:inline;" onsubmit="return confirm('Supprimer ce catway ?')">
+            <button type="submit" class="btn-supprimer">Supprimer</button>
+        </form>
 
-        <h2>Réservations en cours</h2>
+        <h2 style="margin-top: 30px;">Réservations de ce catway</h2>
 
         <% if (reservations.length === 0) { %>
-            <p>Aucune réservation enregistrée.</p>
+            <p>Aucune réservation pour ce catway.</p>
         <% } else { %>
         <table>
             <tr>
-                <th>Catway n°</th>
                 <th>Client</th>
                 <th>Bateau</th>
                 <th>Début</th>
@@ -134,7 +133,6 @@
             </tr>
             <% reservations.forEach(r => { %>
             <tr>
-                <td><%= r.catwayNumber %></td>
                 <td><%= r.clientName %></td>
                 <td><%= r.boatName %></td>
                 <td><%= new Date(r.startDate).toLocaleDateString('fr-FR') %></td>
@@ -143,7 +141,6 @@
             <% }) %>
         </table>
         <% } %>
-
     </div>
 
 </body>
