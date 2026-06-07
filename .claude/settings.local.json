@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import reportlab; print\\('ok'\\)\")",
+      "Bash(python -c \"import reportlab; print\\('ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python \"C:\\\\Users\\\\krsv2\\\\AppData\\\\Local\\\\Temp\\\\generate_pdf.py\")"
+    ]
+  }
+}
